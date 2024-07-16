@@ -1,6 +1,11 @@
-from app import auth, db, app
-from models import User
-from flask import g, jsonify, request
+from flask import Blueprint, g, jsonify, request
+from flask_httpauth import HTTPBasicAuth
+from api import db
+from api.models import User
+from werkzeug.security import generate_password_hash, check_password_hash
+
+auth_bp = Blueprint('auth_bp', __name__)
+auth = HTTPBasicAuth()
 
 @auth.verify_password
 def verify_password(username, password):
@@ -10,7 +15,7 @@ def verify_password(username, password):
         return True
     return False
 
-@app.route('/signup', methods=['POST'])
+@auth_bp.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json() or {}
     username = data.get('username')
@@ -25,7 +30,7 @@ def signup():
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
 
-@app.route('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['POST'])
 @auth.login_required
 def login():
     return jsonify({'message': 'Login successful'}), 200
