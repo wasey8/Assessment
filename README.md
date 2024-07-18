@@ -45,7 +45,7 @@
 
 # Authentication
 
-    Basic Authentication: Implemented for simplicity. Consider JWT for stateless authentication and scalability.
+    Basic Authentication: Implemented for simplicity. JWT can be implemented for better security and follow industry standards.
 
 # Trade-offs Made
     Basic Error Handling: Implemented basic error handling for simplicity. Enhance with more robust error handling for production.
